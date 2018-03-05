@@ -82,7 +82,7 @@ describe('Lottery contract', () => {
       assert(e);
     }
   });
-  it('sends money to winner and resets players array', async () => {
+  it('sends money to winner', async () => {
     // enter into the lottery
     await lottery.methods.enter().send({
       from: accounts[0],
@@ -97,5 +97,18 @@ describe('Lottery contract', () => {
     // make sure difference is greater than 0.8 (amount sent - est. cost of gas)
     const difference = finalBalance - initialBalance;
     assert(difference > web3.utils.toWei('0.8', 'ether'));
+  });
+  it('resets players array after picking winner', async () => {
+    // enter the lottery
+    await lottery.methods.enter().send({
+      from: accounts[0],
+      value: web3.utils.toWei('0.02', 'ether')
+    })
+    // pick a winner
+    await lottery.methods.pickWinner().send({ from: accounts[0] });
+    // get the list of new players
+    const players = await lottery.methods.getPlayers().call({ from: accounts[0] });
+    // pass the test if players array is empty
+    assert.equal(0, players.length);
   });
 });
