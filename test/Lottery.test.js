@@ -72,7 +72,7 @@ describe('Lottery contract', () => {
       assert(e);
     }
   });
-  it('only manager can call pickWinner', async () => {
+  it('only manager can call pickWinner()', async () => {
     try {
       // attempt to enter not as manager
       await lottery.methods.pickWinner().send({ from: accounts[1] });
@@ -98,7 +98,7 @@ describe('Lottery contract', () => {
     const difference = finalBalance - initialBalance;
     assert(difference > web3.utils.toWei('0.8', 'ether'));
   });
-  it('players array is emptied after running pickWinner() function', async () => {
+  it('players array is emptied after running pickWinner()', async () => {
     // enter the lottery
     await lottery.methods.enter().send({
       from: accounts[0],
@@ -111,7 +111,7 @@ describe('Lottery contract', () => {
     // pass the test if players array is empty
     assert.equal(0, players.length);
   });
-  it('contract balance is zero after running pickWinner() function', async () => {
+  it('contract balance is zero after running pickWinner()', async () => {
     // enter the lottery
     await lottery.methods.enter().send({
       from: accounts[0],
